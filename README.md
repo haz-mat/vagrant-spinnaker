@@ -5,6 +5,10 @@ installation with AWS as a cloud provider.
 Requires a config file in the same directory as the Vagrantfile named `cfg.yml`
 with important parameters defined.
 
+## Usage
+* `vagrant up`
+* In the default configuration, the Deck UI should be reachable at http://localhost:9000
+
 ## Example `cfg.yml`
 ```yaml
 ---
