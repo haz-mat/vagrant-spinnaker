@@ -1,8 +1,8 @@
 #!/bin/bash
 set -o verbose -o errexit -o nounset
 
-# Deploys a localdebian installation of Spinnaker using Halyward using a Minio
-# Docker container as storage backend. Opens Deck UI and Gate API externally.
+# Deploys a localdebian installation of Spinnaker using Halyward with a Minio
+# Docker container as the storage backend. Opens Deck UI and Gate API externally.
 # Required env vars:
 # AWS_ACCOUNT_ID
 # AWS_ACCESS_KEY_ID
@@ -31,8 +31,8 @@ sudo bash InstallHalyard.sh --user vagrant
 hal --version
 
 # Setup Minio storage backend
-# These keys are set as is because of this bug:
-# https://github.com/spinnaker/spinnaker/issues/2290
+## These keys are set as is because of this bug:
+## https://github.com/spinnaker/spinnaker/issues/2290
 MINIO_ACCESS_KEY=$AWS_ACCESS_KEY_ID
 MINIO_SECRET_KEY=$AWS_SECRET_ACCESS_KEY
 sudo docker stop minio || true
@@ -52,6 +52,7 @@ echo $MINIO_SECRET_KEY | hal_cfg storage s3 edit \
   --access-key-id $MINIO_ACCESS_KEY \
   --secret-access-key
 hal_cfg storage edit --type s3
+## Disable S3 versioning. Incompatible with Minio.
 mkdir -p ~/.hal/default/profiles
 printf 'spinnaker.s3:\n  versioning: false' \
   > ~/.hal/default/profiles/front50-local.yml
